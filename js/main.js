@@ -4,6 +4,8 @@ let crud_desc__input = document.querySelector(".crud_desc__input");
 let servicesList = document.querySelector("#servicesList1");
 let mainModal = document.querySelector(".main-modal");
 let inpEdit = document.querySelector(".inp-edit");
+let inpEditTitle = document.querySelector(".inp-edit-title");
+let inpEditDescription = document.querySelector(".inp-edit-description");
 let btnCloser = document.querySelector(".btn-closer");
 let btnSave = document.querySelector(".btn-save");
 let selectedImage = document.getElementById("selectedImage");
@@ -31,41 +33,40 @@ crud_create.addEventListener("click", () => {
   crud_title__input.value = "";
   crud_desc__input.value = "";
   selectedImage.value = "";
-  imagePreview.src = "";
 });
 
 selectedImage.addEventListener("change", () => {
-    if (selectedImage.files.length > 0) {
-      const file = selectedImage.files[0];
-      const reader = new FileReader();
-  
-      reader.onload = function (event) {
-        imagePreview.src = event.target.result;
-      };
-  
-      reader.readAsDataURL(file);
-    } else {
-      imagePreview.src = "";
-    }
-  });
+  if (selectedImage.files.length > 0) {
+    const file = selectedImage.files[0];
+    const reader = new FileReader();
 
-btnSave.addEventListener("click", () => {
-  let data = getServicesFromLocalStorage();
-  let index = inpEdit.getAttribute("data-index");
-  if (!inpEdit.value.trim()) {
-    alert("Заполните поле");
-    return;
+    reader.onload = function (event) {
+      imagePreview.src = event.target.result;
+    };
+
+    reader.readAsDataURL(file);
   }
-  let newService = {
-    title: inpEdit.value,
-    description: data[index].description,
-  };
-  data.splice(index, 1, newService);
-  saveServicesToLocalStorage(data);
-  mainModal.style.display = "none";
-  inpEdit.value = "";
-  renderServices();
 });
+
+
+  btnSave.addEventListener("click", () => {
+    let data = getServicesFromLocalStorage();
+    let index = inpEditTitle.getAttribute("data-index");
+    if (!inpEditTitle.value.trim() || !inpEditDescription.value.trim()) {
+      alert("Заполните все поля");
+      return;
+    }
+    let newService = {
+      title: inpEditTitle.value,
+      description: inpEditDescription.value,
+    };
+    data.splice(index, 1, newService);
+    saveServicesToLocalStorage(data);
+    mainModal.style.display = "none";
+    inpEditTitle.value = "";
+    inpEditDescription.value = "";
+    renderServices();
+  });
 
 btnCloser.addEventListener("click", () => {
   mainModal.style.display = "none";
@@ -101,20 +102,24 @@ function renderServices() {
     <img src="${service.image}" alt="" class="services__icon1">
     <h4 class="services__title1">${service.title}</h4>
     <p class="services__desc1">${service.description}</p>
-    <button onclick="updateService(${index})">Update</button>
+    <button onclick="updateService(${index}, this)">Update</button>
     <button onclick="deleteService(${index})">Delete</button>
   </div>
-      `;
+`;
+;
     servicesList.appendChild(serviceItem);
   });
 }
 
 
-function updateService(index) {
+function updateService(index, buttonElement) {
   const services = getServicesFromLocalStorage();
-  inpEdit.setAttribute("data-index", index);
-  inpEdit.value = services[index].title;
+  const serviceToUpdate = services[index];
+  inpEditTitle.value = serviceToUpdate.title;
+  inpEditDescription.value = serviceToUpdate.description;
   mainModal.style.display = "block";
+  inpEditTitle.setAttribute("data-index", index);
+  inpEditDescription.setAttribute("data-index", index);
 }
 
 function deleteService(index) {
@@ -125,4 +130,5 @@ function deleteService(index) {
 }
 
 renderServices();
+
 
