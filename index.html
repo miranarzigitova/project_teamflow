@@ -99,10 +99,32 @@
 
              <!-- //////////////////////////////////////////////////-->
             
-            <div class="services">
+             <div class="services">
                 <h2 class="services__title_main">Make your work easier</h2>
+                
+                <div class="services__crud">
+                    <span class="crud_title">Additional Service for work easier: </span>
+                    <input type="file" id="selectedImage" accept="image/*" />
+                    <img src="" alt="image" id="imagePreview" style="max-width: 100px;"/>
+                    <br>
+                    <input type="text" class="crud_title__input" placeholder="Title">
+                    <textarea class="crud_desc__input" placeholder="Description"></textarea>
+                    <button class="crud_create">Create</button>
+                  </div>
 
-                <ul class="services__list">
+                  <div class="main-modal">
+                    <div class="inner-modal">
+                      <div class="close">
+                        <button class="btn-closer">X</button>
+                      </div>
+                      <input type="text" class="inp-edit-title" placeholder="New Title">
+                      <textarea class="inp-edit-description" placeholder="New Description"></textarea>
+                      <input type="file" class="inp-edit-image" accept="image/*">
+                      <button class="btn-save">Save</button>
+                    </div>
+                  </div>
+            
+                  <ul class="services__list" id="servicesList">
                     <li class="services__item">
                         <img src="./images/Group 21.png" alt="" class="services__icon">
                         <h4 class="services__title">Team Surveys & Reports</h4>
@@ -136,6 +158,8 @@
                         <h4 class="services__title">Exclusives Manager</h4>
                         <p class="services__desc">Access manager tips, activities and best practices from our team of experts.</p>
                     </li>
+                </ul>
+                <ul class="services__list1" id="servicesList1">
                 </ul>
             </div>
 
@@ -250,6 +274,8 @@
             </footer>
 
              <!-- //////////////////////////////////////////////////-->
+             <script src="./js/main.js"></script>
+             <!-- <script src="./js/main.js"></script> -->
 
         </body>
     </head>
